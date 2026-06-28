@@ -1,4 +1,10 @@
-import type { NextConfig } from "next";
+/**
+ * RAD Vision Academy — Next.js configuration
+ *
+ * NOTE: This file is `.mjs` (not `.ts`) because Hostinger's Node.js Web App
+ * auto-detection looks for next.config.js / next.config.mjs and fails on
+ * next.config.ts with "Unsupported framework or invalid project structure".
+ */
 
 /**
  * Security headers — protect against XSS, clickjacking, MIME sniffing,
@@ -25,16 +31,11 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      // Allow inline styles (Tailwind, Framer Motion, TipTap all inject styles)
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      // Allow inline scripts for Next.js runtime + JSON-LD structured data
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms",
-      // Images: allow self + Supabase storage + data URIs (optimized images)
       "img-src 'self' data: blob: https: https://*.supabase.co",
-      // Supabase REST + Auth + Realtime endpoints
       "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.clarity.ms wss://*.supabase.co",
-      // Block mixed content + external plugins
       "upgrade-insecure-requests",
       "object-src 'none'",
       "base-uri 'self'",
@@ -47,7 +48,8 @@ const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
 ];
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   // ✅ Standalone output — required for Hostinger/VPS/Docker deployment
   output: "standalone",
 
@@ -79,7 +81,7 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // ✅ Strip Supabase-internal paths out of the client bundle
+  // ✅ Reduce bundle size for icon/animation-heavy imports
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
   },
@@ -87,7 +89,6 @@ const nextConfig: NextConfig = {
   // ✅ Webpack: split heavy libs into their own chunks so they don't block
   // the main page bundle. Three.js + Framer Motion are the big ones.
   webpack: (config, { isServer }) => {
-    // Only split client chunks — server keeps everything in one bundle
     if (!isServer) {
       config.optimization = {
         ...config.optimization,
