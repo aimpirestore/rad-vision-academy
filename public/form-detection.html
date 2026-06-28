@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <!--
+    This hidden HTML file tells Netlify to register the "contact" form
+    so that Netlify Forms work with the React contact form on the site.
+    Netlify detects forms at build time from static HTML.
+  -->
+  <body style="display:none">
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" action="/contact">
+      <input type="hidden" name="form-name" value="contact" />
+      <input name="firstName" />
+      <input name="lastName" />
+      <input name="email" type="email" />
+      <input name="country" />
+      <select name="topic">
+        <option>General enquiry</option>
+      </select>
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>

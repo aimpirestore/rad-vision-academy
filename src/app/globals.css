@@ -1,0 +1,200 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   RAD Vision Academy — Global Styles
+   Premium medical education design system
+   ========================================================= */
+
+@layer base {
+  :root {
+    --brand-red: 177 18 38;
+    --brand-red-deep: 122 10 25;
+    --brand-black: 26 26 26;
+    --brand-white: 255 255 255;
+    --radius-card: 1.5rem;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-brand-white text-brand-black font-sans antialiased;
+    font-feature-settings: "ss01", "cv01", "cv11";
+  }
+
+  ::selection {
+    background-color: rgba(177, 18, 38, 0.18);
+    color: #7A0A19;
+  }
+
+  /* Refined focus ring for accessibility */
+  :focus-visible {
+    outline: 2px solid rgba(177, 18, 38, 0.6);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Thin, branded scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F5F5F5;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #C0C0C0;
+    border-radius: 999px;
+    border: 2px solid #F5F5F5;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #B11226;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-bold tracking-tight;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Container — luxury spacing */
+  .container-px {
+    @apply px-5 sm:px-8 lg:px-12;
+  }
+  .container-narrow {
+    @apply mx-auto w-full max-w-3xl container-px;
+  }
+  .container-default {
+    @apply mx-auto w-full max-w-7xl container-px;
+  }
+  .container-wide {
+    @apply mx-auto w-full max-w-[88rem] container-px;
+  }
+
+  /* Eyebrow label */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-red;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-8 bg-brand-red/50;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-tight transition-all duration-300 ease-out will-change-transform;
+  }
+  .btn-primary {
+    @apply btn bg-brand-red text-white shadow-glow hover:bg-brand-red-deep hover:-translate-y-0.5 active:translate-y-0;
+  }
+  .btn-dark {
+    @apply btn bg-brand-black text-white hover:bg-brand-black/90 hover:-translate-y-0.5;
+  }
+  .btn-ghost {
+    @apply btn border border-brand-black/10 bg-white/70 text-brand-black backdrop-blur hover:border-brand-black/20 hover:bg-white;
+  }
+  .btn-outline {
+    @apply btn border border-brand-red/30 text-brand-red hover:bg-brand-red hover:text-white;
+  }
+
+  /* Surfaces — soft 3D cards */
+  .surface {
+    @apply rounded-4xl border border-brand-black/[0.06] bg-white shadow-soft;
+  }
+  .surface-elevated {
+    @apply rounded-5xl border border-brand-black/[0.06] bg-white shadow-soft-lg;
+  }
+  .surface-inset {
+    @apply rounded-3xl border border-brand-black/[0.05] bg-brand-light-grey;
+  }
+
+  /* Section label divider */
+  .section-rule {
+    @apply mx-auto h-px w-full max-w-xs bg-gradient-to-r from-transparent via-brand-black/15 to-transparent;
+  }
+
+  /* Text gradients */
+  .text-gradient-red {
+    @apply bg-gradient-to-br from-brand-red via-brand-red to-brand-red-deep bg-clip-text text-transparent;
+  }
+  .text-gradient-ink {
+    @apply bg-gradient-to-br from-brand-black via-brand-black to-brand-dark-grey bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  /* DICOM / blueprint background patterns at very low opacity */
+  .bg-blueprint {
+    background-image:
+      linear-gradient(rgba(26, 26, 26, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 26, 26, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .bg-blueprint-fine {
+    background-image:
+      linear-gradient(rgba(26, 26, 26, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 26, 26, 0.02) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .bg-scan-rings {
+    background-image: radial-gradient(circle at center, rgba(177, 18, 38, 0.05) 0, transparent 35%);
+  }
+
+  /* Glass blur reserved for nav only */
+  .glass-nav {
+    background-color: rgba(255, 255, 255, 0.72);
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Reduced motion — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
