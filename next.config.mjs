@@ -50,9 +50,7 @@ const securityHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ✅ Standalone output — required for Hostinger/VPS/Docker deployment
-  output: "standalone",
-
+  // ✅ Standard Next.js output (Hostinger runs `next start` via npm start)
   reactStrictMode: true,
   poweredByHeader: false,
 
