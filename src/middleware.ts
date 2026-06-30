@@ -5,6 +5,9 @@ export async function middleware(request: NextRequest) {
   return await updateSession(request);
 }
 
+// Middleware runs in the Edge Runtime by default. The build warning about
+// process.version is harmless — it comes from @supabase/supabase-js internals
+// but does not affect functionality. Supabase auth session refresh works fine.
 export const config = {
   matcher: [
     /*
