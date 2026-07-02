@@ -7,28 +7,28 @@
  *
  * The service role key is read directly inside `server.ts` instead.
  *
- * Next.js inlines `process.env.NEXT_PUBLIC_*` at BUILD time, so the values
- * must be present in the build environment (local `.env.local`, or the
- * Netlify/Hostinger dashboard for production builds).
+ * ── Why hardcoded fallbacks? ─────────────────────────────────────────
+ * Next.js inlines `process.env.NEXT_PUBLIC_*` at BUILD time. On hosting
+ * platforms (Hostinger / Netlify) where env vars aren't always present at
+ * build, the app ships with empty strings → "Invalid API key" at runtime.
+ *
+ * The anon key is DESIGNED to be public — it only grants access that Row
+ * Level Security explicitly allows. Bundling it as a fallback is the standard
+ * Supabase deployment pattern and is safe.
  */
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  const missing = [
-    !supabaseUrl && "NEXT_PUBLIC_SUPABASE_URL",
-    !supabaseAnonKey && "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-  ]
-    .filter(Boolean)
-    .join(", ");
+const FALLBACK_URL = "https://yjjbiofujzrfpfmyrddy.supabase.co";
+const FALLBACK_ANON =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqamJpb2Z1anpyZnBmbXlyZWR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwOTg5OTAsImV4cCI6MjA5NzY3NDk5MH0.I_r7oFPAi1pesvmnxw6_bm8sG0hw4Ni9n4F0NOYkuvc";
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || FALLBACK_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || FALLBACK_ANON;
+
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
   // eslint-disable-next-line no-console
-  console.error(
-    `[supabase] Missing environment variable(s): ${missing}\n` +
-      `These are required to connect to Supabase.\n` +
-      `- Local dev:   add them to .env.local (see .env.example)\n` +
-      `- Production:  set them in Netlify/Hostinger environment variables, then redeploy.\n` +
-      `Find the values at: https://supabase.com/dashboard/project/_/settings/api`,
+  console.info(
+    "[supabase] Using bundled fallback public credentials. " +
+      "Set NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY to override.",
   );
 }
 
