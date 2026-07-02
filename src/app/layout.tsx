@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ServiceWorkerRegister } from "@/components/safety/ServiceWorkerRegister";
 import { getNav, getSiteSettings, getSocialLinks, getSeoSettings } from "@/lib/data";
 
 const poppins = Poppins({
@@ -144,6 +145,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
+        <ServiceWorkerRegister />
       </body>
     </html>
   );
